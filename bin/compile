@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+mkdir -p "$1/.heroku/lib"
+
+echo "-----> lxml-buildpack: Installing sources to app/.heroku/lib"
+tar -C "$1/.heroku/lib" -xzf dist.tar.gz
+
+echo "-----> lxml-buildpack: Setting LD_LIBRARY_PATH=\"/app/.heroku/lib\""
+echo -n "/app/.heroku/lib" > "$3/LD_LIBRARY_PATH"
