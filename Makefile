@@ -1,15 +1,11 @@
-LIBXSLT := libxslt-1.1.28
-LIBXML2 := libxml2-2.9.1
-
-vendor:
-	wget http://xmlsoft.org/sources/$(LIBXML2).tar.gz
-	wget http://xmlsoft.org/sources/$(LIBXSLT).tar.gz
-.PHONY: vendor
+IMAGE := heroku/heroku:18-build
 
 dist:
-	docker run --rm -it -v $(PWD):/workspace --workdir /workspace python:2.7.8 ./dist.sh
+	rm dist.tar.gz
+	touch dist.tar.gz
+	docker run --rm -it -v $(PWD):/workspace --workdir /workspace $(IMAGE) ./dist.sh
 .PHONY: dist
 
 tests/compile:
-	docker run --rm -it -v $(PWD):/workspace --workdir /workspace python:2.7.8 ./tests/compile.sh
+	docker run --rm -it -v $(PWD):/workspace --workdir /workspace $(IMAGE) ./tests/compile.sh
 .PHONY: tests/compile

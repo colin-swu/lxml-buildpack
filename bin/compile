@@ -2,11 +2,15 @@
 
 set -e
 
+if [[ ! -f  /tmp/stdlib.sh ]]; then
+  curl --retry 3 -s https://lang-common.s3.amazonaws.com/buildpack-stdlib/v8/stdlib.sh > /tmp/stdlib.sh
+fi
+source /tmp/stdlib.sh
+
 BUILD_DIR="$1"
 ENV_DIR="$3"
 DIST_DIR="$BUILD_DIR/.heroku/lxml"
 LIB_DIR="/app/.heroku/lxml/lib"
-PY_DIR="/app/.heroku/lxml/py"
 
 mkdir -p $DIST_DIR
 
@@ -15,8 +19,5 @@ echo "-----> lxml-buildpack: Installing lxml to $DIST_DIR"
 echo "       Installing sources"
 tar -C $DIST_DIR -xzf dist.tar.gz
 
-echo "       Setting LD_LIBRARY_PATH=\"$LIB_DIR\""
-echo -n $LIB_DIR > "$ENV_DIR/LD_LIBRARY_PATH"
-
-echo "       Setting PYTHONPATH=\"$PY_DIR:/app\""
-echo -n $PY_DIR > "$ENV_DIR/PYTHONPATH"
+echo "       Adding \"$LIB_DIR\" to load path"
+set_env LD_LIBRARY_PATH "$LIB_DIR:\$LD_LIBRARY_PATH"
