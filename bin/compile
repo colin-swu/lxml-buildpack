@@ -1,10 +1,22 @@
 #!/bin/bash
 
+set -e
 
-mkdir -p "$1/.heroku/lib"
+BUILD_DIR="$1"
+ENV_DIR="$3"
+DIST_DIR="$BUILD_DIR/.heroku/lxml"
+LIB_DIR="$DIST_DIR/lib"
+PY_DIR="$DIST_DIR/py"
 
-echo "-----> lxml-buildpack: Installing sources to app/.heroku/lib"
-tar -C "$1/.heroku/lib" -xzf dist.tar.gz
+mkdir -p $DIST_DIR
 
-echo "-----> lxml-buildpack: Setting LD_LIBRARY_PATH=\"/app/.heroku/lib\""
-echo -n "/app/.heroku/lib" > "$3/LD_LIBRARY_PATH"
+echo "-----> lxml-buildpack: Installing lxml to $DIST_DIR"
+
+echo "       Installing sources"
+tar -C $DIST_DIR -xzf dist.tar.gz
+
+echo "       Setting LD_LIBRARY_PATH=\"$LIB_DIR\""
+echo -n $LIB_DIR > "$ENV_DIR/LD_LIBRARY_PATH"
+
+echo "       Setting PYTHONPATH=\"$PY_DIR:/app\""
+echo -n $PY_DIR > "$ENV_DIR/PYTHONPATH"
