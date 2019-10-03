@@ -9,3 +9,7 @@ vendor:
 dist:
 	docker run --rm -it -v $(PWD):/workspace --workdir /workspace python:2.7.8 ./dist.sh
 .PHONY: dist
+
+tests/compile:
+	docker run --rm -it -v $(PWD):/workspace --workdir /workspace python:2.7.8 ./tests/compile.sh
+.PHONY: tests/compile
