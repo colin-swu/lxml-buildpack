@@ -5,8 +5,8 @@ set -e
 BUILD_DIR="$1"
 ENV_DIR="$3"
 DIST_DIR="$BUILD_DIR/.heroku/lxml"
-LIB_DIR="$DIST_DIR/lib"
-PY_DIR="$DIST_DIR/py"
+LIB_DIR="/app/.heroku/lxml/lib"
+PY_DIR="/app/.heroku/lxml/py"
 
 mkdir -p $DIST_DIR
 
