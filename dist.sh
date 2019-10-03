@@ -34,9 +34,9 @@ popd
 # Make sure LXML is built against headers from our fixed package:
 export LD_LIBRARY_PATH="$LIB/lib"
 
-# pip install --no-deps $VENDOR/$LXML --target $LIBPY
-# pip install --no-deps $VENDOR/$PREMAILER --target $LIBPY
-# pip install --no-deps $VENDOR/$CSSSELECT --target $LIBPY
+pip install --no-deps $VENDOR/$LXML --target $LIBPY
+pip install --no-deps $VENDOR/$PREMAILER --target $LIBPY
+pip install --no-deps $VENDOR/$CSSSELECT --target $LIBPY
 
 pushd $LIB
 tar -zcf /workspace/dist.tar.gz .
