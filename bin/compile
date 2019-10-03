@@ -2,15 +2,21 @@
 
 set -e
 
-if [[ ! -f  /tmp/stdlib.sh ]]; then
-  curl --retry 3 -s https://lang-common.s3.amazonaws.com/buildpack-stdlib/v8/stdlib.sh > /tmp/stdlib.sh
-fi
-source /tmp/stdlib.sh
-
 BUILD_DIR="$1"
+CACHE_DIR=$2
 ENV_DIR="$3"
 DIST_DIR="$BUILD_DIR/.heroku/lxml"
 LIB_DIR="/app/.heroku/lxml/lib"
+PROFILE_PATH="$BUILD_DIR/.profile.d/lxml.sh"
+EXPORT_PATH="$BIN_DIR/../export"
+BIN_DIR=$(cd "$(dirname "$0")"; pwd)
+
+mkdir -p "$(dirname "$PROFILE_PATH")"
+
+set_env() {
+  echo "export $1=$2" >> "$PROFILE_PATH"
+  echo "export $1=$2" >> "$EXPORT_PATH"
+}
 
 mkdir -p $DIST_DIR
 
